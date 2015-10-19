@@ -1,0 +1,152 @@
+@import common
+
+.content
+	max-width 100%
+	width 900px
+	margin-left auto
+	margin-right auto
+
+.phones
+	margin-top 20px
+
+	.phone
+		height 220px
+		.info
+			float left
+			width 66px
+			height 120px
+			text-align center
+
+			.preview_frame
+				position absolute
+				left 8px
+				top 14px
+				width 50px
+				height 66px
+				background-size contain
+				background-repeat no-repeat
+				background-position center
+				background-color #333
+
+			.deviceimage
+				position absolute
+				left 0px
+				top 0px
+				background-image url("/images/ic_phone_android_black_132@2x.png")
+				background-repeat no-repeat
+				background-size 66px 103px
+				width 66px
+				height 120px
+
+
+			.devicename
+				font-size 10px
+				top 65px
+				color #FFF
+
+			.client_id
+				top 95px
+				font-size 8px
+
+		.recordcontrols
+			float left
+			height 100%
+			.recordbutton
+				top 25px
+				background-image url("/images/record_132@2x.png")
+				background-size 50px 50px
+				width 50px
+				height 50px
+				cursor pointer
+				margin-left 4px
+
+
+		.state
+			position absolute
+			top 130px
+			left 0px
+			background-color black
+			width 120px
+			height 20px
+
+			.recordingicon
+				position absolute
+				top 6px
+				left 3px
+				background-color red
+				border-radius 50%
+				height 10px
+				width 10px
+				display none
+
+			.statetext
+				position absolute
+				top 0px
+				left 0px
+				color #F3F3F4
+				font-size 15px
+				font-weight 100
+				padding 2px
+
+		.uploadspeed
+			position absolute
+			top 166px
+			left 0px
+			width 120px
+			height 20px
+			background-color black
+			color #FF8101
+			font-size 15px
+			font-weight 100
+			padding 2px
+
+		.uploadgraph
+			float left
+			margin-left 4px
+			height 100%
+			width 600px
+
+			.chart
+				width 100%
+				height 100%
+				background-color yellow
+
+
+
+
+
+
+
+		.actions
+			float left
+			width 170px
+			height 100%
+			.disablewifi, .fetchlog, .deletephonedata, .disablewifiseconds
+				margin-left 4px
+				width 160px
+				text-align left
+				margin-bottom 6px
+				display block
+				float left
+
+	.phone.recording
+		.state
+			.recordingicon
+				display block
+			.statetext
+				left 16px
+
+		.recordcontrols
+			.recordbutton
+				opacity 0.4
+
+
+	.phone.disconnected
+		background-color red
+
+
+
+
+
+.record.stop
+	background-image url("/images/record_stop_132@2x.png")

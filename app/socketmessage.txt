@@ -1,0 +1,4 @@
+{toggleRecord: "1", client_id: "f8:a9:d0:8a:a8:8c"}
+{postLog: "1", client_id: "f8:a9:d0:8a:a8:8c"}
+{wipeVideos: "1", client_id: "f8:a9:d0:8a:a8:8c"}
+{reconnectIn: "1", client_id: "f8:a9:d0:8a:a8:8c"}

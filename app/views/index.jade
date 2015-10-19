@@ -1,0 +1,71 @@
+doctype html5
+html
+	head
+		meta(name='viewport', content='initial-scale=1.0, user-scalable=no')
+		title= title
+		link(href='http://fonts.googleapis.com/css?family=Roboto:400,700,400italic,100', rel='stylesheet', type='text/css')
+
+		link(rel='stylesheet', href="/stylesheets/index.css")
+
+
+	body
+		.content
+			#container
+			.phones
+
+
+		script(type='text/javascript', src='/vendor/jquery.min.js')
+		script(type='text/javascript', src='/vendor/jquery.tmpl.min.js')
+
+		script(type='text/javascript', src='/vendor/jquery-ui.min.js')
+		script(type='text/javascript', src='/vendor/jquery.ui.touch-punch.min.js')
+
+		script(type='text/javascript', src='/vendor/underscore-min.js')
+		script(type='text/javascript', src='/vendor/backbone-min.js')
+
+		script(type='text/javascript', src='/vendor/highcharts.js')
+		script(type='text/javascript', src='/vendor/highcharts.exporting.js')
+
+		script(type='text/javascript', src='/vendor/fastclick.js')
+
+		script(type='text/javascript', src='/javascripts/index.js')
+
+
+		script#phone-tmpl(type="text/x-jquery-tmpl")
+			.info
+				.preview_frame
+				.deviceimage
+				.devicename ${device}
+				.client_id ${client_id}
+
+			.recordcontrols
+				.recordbutton
+
+			.state
+				.recordingicon
+				.statetext ${status}
+			.uploadspeed
+
+
+			.uploadgraph
+				.chart
+			.actions
+				select.disablewifi
+					option(value=0) Temporarily disable wifi
+					option(value=5) for 5 seconds
+					option(value=10) for 10 seconds
+					option(value=20) for 20 seconds
+					option(value=30) for 30 seconds
+
+				button.fetchlog Fetch device log
+				button.deletephonedata Delete device data
+
+
+
+		script.
+			$(function(){
+				var app = new App({
+					connectedPhones: !{JSON.stringify(connectedPhones)}
+				});
+				app.init();
+			});
