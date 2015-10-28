@@ -110,6 +110,8 @@ function registeredPhoneConnected(phone, ws) {
 	console.log('phone registered:', phone.client_id);
 	phone = extractPhoneData(phone); // get's extra data (device name) from phone data
 
+	console.log(phone);
+
 	// save phone for when admin connects:
 	connectedPhones[phone.client_id] = {
 		phone: phone,

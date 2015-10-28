@@ -170,7 +170,7 @@ a.button {
   float: left;
   margin-left: 4px;
   height: 100%;
-  width: 770px;
+  width: 600px;
 }
 .phones .phone .uploadgraph .chart {
   width: 100%;
@@ -181,7 +181,6 @@ a.button {
   float: left;
   width: 170px;
   height: 100%;
-  display: none;
 }
 .phones .phone .actions .disablewifi,
 .phones .phone .actions .fetchlog,

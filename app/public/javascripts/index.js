@@ -220,7 +220,10 @@ var App = function (options){
 		},
 
 		events : {
-			'click .recordbutton': 'recordbutton_clicked'
+			'click .recordbutton'          : 'recordbutton_clicked',
+			'click button.fetchlog'        : 'fetchlog_clicked',
+			'click button.deletephonedata' : 'deletephonedata_clicked',
+			'change select.disablewifi'    : 'disablewifi_changed'
 		},
 
 		render: function(){
@@ -287,12 +290,12 @@ var App = function (options){
 			var unit = 'mbps';
 
 
-			if(Math.floor(speed) < 0){
+			if(Math.floor(speed) == 0){
 				speed = speed * 1024;
 				unit = 'kbps';
 			}
 
-			if(Math.floor(speed) < 0){
+			if(Math.floor(speed) == 0){
 				speed = speed * 1024;
 				unit = 'bps';
 			}
@@ -307,19 +310,6 @@ var App = function (options){
 			var y = this.model.get('megabitPerSecond') * 1024 * 1024; // bps
 			this.addPointToGraph(x, y);
 		},
-
-
-		recordbutton_clicked: function (event) {
-			if(this.model.get('isRecording')) return console.log('Already recording');
-
-			this.model.sendToPhone({
-				toggleRecord: "1"
-			});
-
-			// set isRecording so you can't record twice:
-			this.model.set('isRecording', true);
-		},
-
 
 		renderSpeedChart: function () {
 			var thisView = this;
@@ -417,7 +407,7 @@ var App = function (options){
 		},
 
 		updateChartWithSpeedZero: function () {
-			console.log('updateChartWithSpeedZero');
+			// console.log('updateChartWithSpeedZero');
 
 			if(!this.model.get('isTransferingBytes')) {
 				var x = Date.now();
@@ -429,7 +419,42 @@ var App = function (options){
 			setTimeout(function () {
 				self.updateChartWithSpeedZero.apply(self);
 			},1000);
+		},
+
+		recordbutton_clicked: function (event) {
+			if(this.model.get('isRecording')) return console.log('Already recording');
+
+			this.model.sendToPhone({
+				toggleRecord: "1"
+			});
+
+			// set isRecording so you can't record twice:
+			this.model.set('isRecording', true);
+		},
+
+		fetchlog_clicked: function (event) {
+			this.model.sendToPhone({
+				postLog: "1"
+			});
+		},
+
+		deletephonedata_clicked: function (event) {
+			this.model.sendToPhone({
+				wipeVideos: "1"
+			});
+		},
+
+		disablewifi_changed: function  (event) {
+			var time = this.$('select.disablewifi').val();
+			if(time){
+				this.$('select.disablewifi').val(0); //reset dropdown
+
+				this.model.sendToPhone({
+					reconnectIn: time
+				});
+			}
 		}
+
 	});
 
 
