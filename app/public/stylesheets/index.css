@@ -182,10 +182,9 @@ a.button {
   width: 170px;
   height: 100%;
 }
-.phones .phone .actions .disablewifi,
-.phones .phone .actions .fetchlog,
-.phones .phone .actions .deletephonedata,
-.phones .phone .actions .disablewifiseconds {
+.phones .phone .actions button,
+.phones .phone .actions select,
+.phones .phone .actions input {
   margin-left: 4px;
   width: 160px;
   text-align: left;

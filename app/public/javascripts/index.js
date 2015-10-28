@@ -223,7 +223,10 @@ var App = function (options){
 			'click .recordbutton'          : 'recordbutton_clicked',
 			'click button.fetchlog'        : 'fetchlog_clicked',
 			'click button.deletephonedata' : 'deletephonedata_clicked',
-			'change select.disablewifi'    : 'disablewifi_changed'
+			'change select.disablewifi'    : 'disablewifi_changed',
+
+			'click button.sayEnglishText'  : 'sayEnglishText_clicked',
+			'click button.sayDutchText'    : 'sayDutchText_clicked'
 		},
 
 		render: function(){
@@ -453,6 +456,18 @@ var App = function (options){
 					reconnectIn: time
 				});
 			}
+		},
+
+		sayEnglishText_clicked: function (event) {
+			this.model.sendToPhone({
+				sayEnglishText: this.$('input.englishText').val()
+			});
+		},
+
+		sayDutchText_clicked: function (event) {
+			this.model.sendToPhone({
+				sayDutchText: this.$('input.dutchText').val()
+			});
 		}
 
 	});
