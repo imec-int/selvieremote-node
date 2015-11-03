@@ -226,7 +226,10 @@ var App = function (options){
 			'change select.disablewifi'    : 'disablewifi_changed',
 
 			'click button.sayEnglishText'  : 'sayEnglishText_clicked',
-			'click button.sayDutchText'    : 'sayDutchText_clicked'
+			'click button.sayDutchText'    : 'sayDutchText_clicked',
+
+			'click button.toggleCamera'    : 'toggleCamera_clicked'
+
 		},
 
 		render: function(){
@@ -425,14 +428,19 @@ var App = function (options){
 		},
 
 		recordbutton_clicked: function (event) {
-			if(this.model.get('isRecording')) return console.log('Already recording');
+			if( !this.model.get('isRecording')) {
+				this.model.sendToPhone({
+					toggleRecord: "1"
+				});
 
-			this.model.sendToPhone({
-				toggleRecord: "1"
-			});
+				this.model.set('isRecording', true);
+			}else{
+				this.model.sendToPhone({
+					toggleRecord: "0"
+				});
 
-			// set isRecording so you can't record twice:
-			this.model.set('isRecording', true);
+				this.model.set('isRecording', false);
+			}
 		},
 
 		fetchlog_clicked: function (event) {
@@ -467,6 +475,12 @@ var App = function (options){
 		sayDutchText_clicked: function (event) {
 			this.model.sendToPhone({
 				sayDutchText: this.$('input.dutchText').val()
+			});
+		},
+
+		toggleCamera_clicked: function (event) {
+			this.model.sendToPhone({
+				toggleCamera: 'toggleCamera'
 			});
 		}
 
