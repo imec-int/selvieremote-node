@@ -199,7 +199,7 @@ a.button {
   left: 16px;
 }
 .phones .phone.recording .recordcontrols .recordbutton {
-  opacity: 0.4;
+  background-image: url("/images/stop-record_132@2x.png");
 }
 .phones .phone.disconnected {
   background-color: #f00;
