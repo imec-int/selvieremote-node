@@ -468,12 +468,14 @@ var App = function (options){
 
 		sayEnglishText_clicked: function (event) {
 			this.model.sendToPhone({
+				message: 'fun',
 				sayEnglishText: this.$('input.englishText').val()
 			});
 		},
 
 		sayDutchText_clicked: function (event) {
 			this.model.sendToPhone({
+				message: 'fun',
 				sayDutchText: this.$('input.dutchText').val()
 			});
 		},
