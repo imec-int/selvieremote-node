@@ -185,7 +185,8 @@ var App = function (options){
 		views: [],
 
 		initialize: function () {
-			this.collection.on('add', this.addPhoneView, this);
+			this.listenTo(this.collection, 'add', this.addPhoneView, this);
+			this.listenTo(this.collection, 'change:connected', this.updateNrOfPhonesConnected);
 		},
 
 		addPhoneView: function (model) {
@@ -199,6 +200,18 @@ var App = function (options){
 
 			// store view object for later (removal when sorting):
 			this.views.push(view);
+
+			this.updateNrOfPhonesConnected();
+		},
+
+		updateNrOfPhonesConnected: function () {
+			var nrOfPhonesConnected = 0;
+			this.collection.forEach(function (model) {
+				if(model.get('connected')) {
+					nrOfPhonesConnected++;
+				}
+			});
+			$('.phonesconnected').text(nrOfPhonesConnected + ' phones connected');
 		}
 	});
 
