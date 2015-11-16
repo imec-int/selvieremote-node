@@ -88,6 +88,15 @@ var App = function (options){
 			return;
 		}
 
+		if(data.message == 'log') {
+			var phoneModel = Collections.phones.get(data.client_id);
+			if(!phoneModel) return console.log('no phone with client_id "' + phoneModel + '" found.');
+
+			phoneModel.set('log', phoneModel.get('log') + data.content + "<br \>");
+
+			return;
+		}
+
 		if(data.status) {
 			var phoneModel = Collections.phones.get(data.client_id);
 			if(!phoneModel) return console.log('no phone with client_id "' + phoneModel + '" found.');
@@ -131,7 +140,8 @@ var App = function (options){
 			status: 'IDLE',
 			isRecording: false,
 			isTransferingBytes: false,
-			speed: 0
+			speed: 0,
+			log: ""
 		},
 
 		calculateSpeed: function (bytesTransferred) {
@@ -228,6 +238,8 @@ var App = function (options){
 			this.listenTo(this.model, 'change:status', this.renderStatus)
 			this.listenTo(this.model, 'change:isRecording', this.renderIsRecording);
 			this.listenTo(this.model, 'change:megabitPerSecond', this.renderSpeed);
+
+			this.listenTo(this.model, 'change:log', this.renderLog);
 
 			this.updateChartWithSpeedZero();
 		},
@@ -328,6 +340,13 @@ var App = function (options){
 			var x = Date.now();
 			var y = this.model.get('megabitPerSecond') * 1024 * 1024; // bps
 			this.addPointToGraph(x, y);
+		},
+
+		renderLog: function () {
+			this.$('.log').html(this.model.get('log'));
+
+			// scroll down:
+			this.$('.log')[0].scrollTop = this.$('.log')[0].scrollHeight;
 		},
 
 		renderSpeedChart: function () {

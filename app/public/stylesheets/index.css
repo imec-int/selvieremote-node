@@ -68,7 +68,7 @@ a.button {
 }
 .content {
   max-width: 100%;
-  width: 900px;
+  width: 1300px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -166,11 +166,22 @@ a.button {
   font-weight: 100;
   padding: 2px;
 }
+.phones .phone .log {
+  height: 200px;
+  float: left;
+  margin-left: 4px;
+  width: 700px;
+  background-color: #000;
+  color: #fff;
+  font-size: 10px;
+  overflow: scroll;
+  padding: 4px;
+}
 .phones .phone .uploadgraph {
   float: left;
   margin-left: 4px;
   height: 100%;
-  width: 600px;
+  width: 300px;
 }
 .phones .phone .uploadgraph .chart {
   width: 100%;
@@ -191,6 +202,8 @@ a.button {
   margin-bottom: 6px;
   display: block;
   float: left;
+  font-size: 10px;
+  height: 20px;
 }
 .phones .phone.recording .state .recordingicon {
   display: block;
@@ -202,7 +215,7 @@ a.button {
   background-image: url("/images/stop-record_132@2x.png");
 }
 .phones .phone.disconnected {
-  background-color: #f00;
+  background-color: #fa9898;
 }
 .record.stop {
   background-image: url("/images/record_stop_132@2x.png");
