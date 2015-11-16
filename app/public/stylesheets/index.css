@@ -42,6 +42,7 @@ select {
   padding-right: 2px;
   border-radius: 0px;
   -webkit-appearance: none;
+  border-radius: 2px;
 }
 .button:active,
 button:active {
@@ -105,7 +106,7 @@ body {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: #333;
+  background-color: #002b41;
 }
 .phones .phone .info .deviceimage {
   position: absolute;
@@ -141,9 +142,9 @@ body {
 }
 .phones .phone .state {
   position: absolute;
-  top: 130px;
+  top: 150px;
   left: 0px;
-  background-color: #000;
+  background-color: #002b41;
   width: 120px;
   height: 20px;
 }
@@ -168,11 +169,11 @@ body {
 }
 .phones .phone .uploadspeed {
   position: absolute;
-  top: 166px;
+  top: 182px;
   left: 0px;
   width: 120px;
   height: 20px;
-  background-color: #000;
+  background-color: #002b41;
   color: #ff8101;
   font-size: 15px;
   font-weight: 100;
@@ -187,7 +188,7 @@ body {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: #333;
+  background-color: #002b41;
 }
 .phones .phone .log {
   height: 202px;
