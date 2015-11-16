@@ -283,6 +283,9 @@ var App = function (options){
 		renderPreviewFrame: function () {
 			if(this.model.get('preview_frame')) {
 				this.$('.preview_frame').css('background-image', 'url("'+ this.model.get('preview_frame') +'")')
+
+				this.$('.previewimage').css('background-image', 'url("'+ this.model.get('preview_frame') +'")')
+
 			}
 		},
 

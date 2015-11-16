@@ -27,9 +27,9 @@ a {
 .button,
 button,
 select {
-  border: 1px #aaa solid;
-  background: #f0f0f0;
-  color: #666;
+  border: none;
+  background: #94a24a;
+  color: #fff;
   cursor: pointer;
   font-size: 14px;
   font-weight: 400;
@@ -38,14 +38,14 @@ select {
   text-align: center;
   display: inline-block;
   cursor: pointer;
-  padding-left: 2px;
+  padding-left: 4px;
   padding-right: 2px;
   border-radius: 0px;
   -webkit-appearance: none;
 }
 .button:active,
 button:active {
-  padding-left: 4px;
+  padding-left: 6px;
 }
 .button:disabled,
 button:disabled {
@@ -86,7 +86,7 @@ body {
 }
 .phones .phone {
   height: 220px;
-  border-bottom: 1px solid #a6a6a6;
+  border-bottom: 1px solid #203540;
   margin-top: 20px;
   padding-bottom: 17px;
 }
@@ -178,11 +178,22 @@ body {
   font-weight: 100;
   padding: 2px;
 }
+.phones .phone .previewimage {
+  height: 202px;
+  float: left;
+  margin-left: 14px;
+  width: 200px;
+  padding: 4px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #333;
+}
 .phones .phone .log {
   height: 202px;
   float: left;
   margin-left: 14px;
-  width: 698px;
+  width: 484px;
   background-color: #fff;
   color: #000;
   font-size: 10px;
@@ -226,8 +237,8 @@ body {
 .phones .phone.recording .recordcontrols .recordbutton {
   background-image: url("/images/stop-record_132@2x.png");
 }
-.phones .phone.disconnected {
-  background-color: #fa9898;
+.phones .phone.disconnected .log {
+  background-color: #c92a48;
 }
 .record.stop {
   background-image: url("/images/record_stop_132@2x.png");
