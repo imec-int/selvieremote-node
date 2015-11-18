@@ -221,7 +221,11 @@ var App = function (options){
 					nrOfPhonesConnected++;
 				}
 			});
-			$('.phonesconnected').text(nrOfPhonesConnected + ' phones connected');
+			if(nrOfPhonesConnected == 1){
+				$('.phonesconnected').text(nrOfPhonesConnected + ' phone connected');
+			}else{
+				$('.phonesconnected').text(nrOfPhonesConnected + ' phones connected');
+			}
 		}
 	});
 
