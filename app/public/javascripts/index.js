@@ -272,6 +272,7 @@ var App = function (options){
 			'click button.sayDutchText'    : 'sayDutchText_clicked',
 
 			'click button.toggleCamera'    : 'toggleCamera_clicked',
+			'click button.toggleSevenSecondsMode' : 'toggleSevenSecondsMode_clicked',
 
 			'click .log>.delete'   	       : 'deleteLog_clicked'
 		},
@@ -304,7 +305,6 @@ var App = function (options){
 				this.$('.preview_frame').css('background-image', 'url("'+ this.model.get('preview_frame') +'")')
 
 				this.$('.previewimage').css('background-image', 'url("'+ this.model.get('preview_frame') +'")')
-
 			}
 		},
 
@@ -540,12 +540,18 @@ var App = function (options){
 
 		toggleCamera_clicked: function (event) {
 			this.model.sendToPhone({
-				toggleCamera: 'toggleCamera'
+				toggleCamera: 1
 			});
 		},
 
 		deleteLog_clicked: function (event) {
 			this.model.set('log', '');
+		},
+
+		toggleSevenSecondsMode_clicked: function (event) {
+			this.model.sendToPhone({
+				toggleSevenSecondsMode: 1
+			});
 		}
 
 	});
