@@ -72,7 +72,7 @@ body {
 }
 .content {
   max-width: 100%;
-  width: 1300px;
+  width: 1328px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -86,61 +86,58 @@ body {
   margin-top: 20px;
 }
 .phones .phone {
-  height: 220px;
   border-bottom: 1px solid #203540;
   margin-top: 20px;
-  padding-bottom: 17px;
+  overflow: hidden;
+  height: auto;
 }
 .phones .phone .info {
-  float: left;
-  width: 66px;
-  height: 120px;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
   text-align: center;
-}
-.phones .phone .info .preview_frame {
-  position: absolute;
-  left: 8px;
-  top: 14px;
-  width: 50px;
-  height: 66px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
   background-color: #002b41;
-}
-.phones .phone .info .deviceimage {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  background-image: url("/images/ic_phone_android_black_132@2x.png");
-  background-repeat: no-repeat;
-  background-size: 66px 103px;
-  width: 66px;
-  height: 120px;
+  overflow: hidden;
+  padding-right: 8px;
+  padding-left: 8px;
+  border-radius: 2px;
 }
 .phones .phone .info .devicename {
-  font-size: 10px;
-  top: 65px;
+  font-size: 19px;
   color: #fff;
+  float: left;
 }
 .phones .phone .info .client_id {
-  top: 95px;
-  font-size: 8px;
+  font-size: 19px;
+  color: #fff;
+  float: right;
 }
-.phones .phone .recordcontrols {
+.phones .phone .phonecontrols {
+  margin-top: 8px;
+  vertical-align: top;
+  height: auto;
+}
+.phones .phone .phonecontrols .recordcontrols,
+.phones .phone .phonecontrols .previewimage,
+.phones .phone .phonecontrols .log,
+.phones .phone .phonecontrols .uploadgraph,
+.phones .phone .phonecontrols .actions {
   float: left;
-  height: 100%;
+  height: 202px;
+  margin-left: 14px;
+  margin-bottom: 14px;
 }
-.phones .phone .recordcontrols .recordbutton {
-  top: 25px;
+.phones .phone .phonecontrols .recordcontrols {
+  width: 120px;
+}
+.phones .phone .phonecontrols .recordcontrols .recordbutton {
   background-image: url("/images/record_132@2x.png");
   background-size: 50px 50px;
   width: 50px;
   height: 50px;
   cursor: pointer;
-  margin-left: 4px;
 }
-.phones .phone .state {
+.phones .phone .phonecontrols .recordcontrols .state {
   position: absolute;
   top: 150px;
   left: 0px;
@@ -149,7 +146,7 @@ body {
   height: 20px;
   border-radius: 2px;
 }
-.phones .phone .state .recordingicon {
+.phones .phone .phonecontrols .recordcontrols .state .recordingicon {
   position: absolute;
   top: 6px;
   left: 3px;
@@ -159,7 +156,7 @@ body {
   width: 10px;
   display: none;
 }
-.phones .phone .state .statetext {
+.phones .phone .phonecontrols .recordcontrols .state .statetext {
   position: absolute;
   top: 0px;
   left: 0px;
@@ -168,7 +165,7 @@ body {
   font-weight: 100;
   padding: 3px;
 }
-.phones .phone .uploadspeed {
+.phones .phone .phonecontrols .recordcontrols .uploadspeed {
   position: absolute;
   top: 182px;
   left: 0px;
@@ -181,10 +178,7 @@ body {
   padding: 3px;
   border-radius: 2px;
 }
-.phones .phone .previewimage {
-  height: 202px;
-  float: left;
-  margin-left: 14px;
+.phones .phone .phonecontrols .previewimage {
   width: 200px;
   padding: 4px;
   background-size: contain;
@@ -193,10 +187,7 @@ body {
   background-color: #002b41;
   border-radius: 2px;
 }
-.phones .phone .log {
-  height: 202px;
-  float: left;
-  margin-left: 14px;
+.phones .phone .phonecontrols .log {
   width: 484px;
   background-color: #fff;
   color: #000;
@@ -205,28 +196,22 @@ body {
   padding: 4px;
   border-radius: 2px;
 }
-.phones .phone .uploadgraph {
-  float: left;
-  margin-left: 14px;
-  height: 100%;
+.phones .phone .phonecontrols .uploadgraph {
   width: 300px;
   border-radius: 2px;
 }
-.phones .phone .uploadgraph .chart {
+.phones .phone .phonecontrols .uploadgraph .chart {
   width: 100%;
   height: 100%;
   background-color: #fff;
   border-radius: 2px;
 }
-.phones .phone .actions {
-  float: left;
+.phones .phone .phonecontrols .actions {
   width: 140px;
-  height: 100%;
-  margin-left: 14px;
 }
-.phones .phone .actions button,
-.phones .phone .actions select,
-.phones .phone .actions input {
+.phones .phone .phonecontrols .actions button,
+.phones .phone .phonecontrols .actions select,
+.phones .phone .phonecontrols .actions input {
   width: 100%;
   text-align: left;
   margin-bottom: 6px;
@@ -235,14 +220,14 @@ body {
   font-size: 10px;
   height: 20px;
 }
-.phones .phone.recording .state .recordingicon {
+.phones .phone.recording .phonecontrols .recordcontrols .recordbutton {
+  background-image: url("/images/stop-record_132@2x.png");
+}
+.phones .phone.recording .phonecontrols .recordcontrols .state .recordingicon {
   display: block;
 }
-.phones .phone.recording .state .statetext {
+.phones .phone.recording .phonecontrols .recordcontrols .state .statetext {
   left: 16px;
-}
-.phones .phone.recording .recordcontrols .recordbutton {
-  background-image: url("/images/stop-record_132@2x.png");
 }
 .phones .phone.disconnected .log {
   background-color: #c92a48;

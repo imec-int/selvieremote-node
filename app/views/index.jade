@@ -33,41 +33,40 @@ html
 
 		script#phone-tmpl(type="text/x-jquery-tmpl")
 			.info
-				.preview_frame
-				.deviceimage
 				.devicename ${device}
 				.client_id ${client_id}
 
-			.recordcontrols
-				.recordbutton
+			.phonecontrols
+				.recordcontrols
+					.recordbutton
+					.state
+						.recordingicon
+						.statetext ${status}
 
-			.state
-				.recordingicon
-				.statetext ${status}
-			.uploadspeed
+					.uploadspeed
 
-			.previewimage
+				.previewimage
 
-			.log
+				.log
 
-			.uploadgraph
-				.chart
-			.actions
-				select.disablewifi
-					option(value=0) Temporarily disable wifi
-					option(value=5) for 5 seconds
-					option(value=10) for 10 seconds
-					option(value=20) for 20 seconds
-					option(value=30) for 30 seconds
-				button.fetchlog Fetch device log
-				button.deletephonedata Delete device data
+				.uploadgraph
+					.chart
+				.actions
+					select.disablewifi
+						option(value=0) Temporarily disable wifi
+						option(value=5) for 5 seconds
+						option(value=10) for 10 seconds
+						option(value=20) for 20 seconds
+						option(value=30) for 30 seconds
+					button.fetchlog Fetch device log
+					button.deletephonedata Delete device data
 
-				input.englishText(type="text", placeholder="English text")
-				button.sayEnglishText Say English text
-				input.dutchText(type="text", placeholder="Nederlandse tekst")
-				button.sayDutchText Say Dutch text
+					input.englishText(type="text", placeholder="English text")
+					button.sayEnglishText Say English text
+					input.dutchText(type="text", placeholder="Nederlandse tekst")
+					button.sayDutchText Say Dutch text
 
-				button.toggleCamera Toggle Camera
+					button.toggleCamera Toggle Camera
 
 
 
