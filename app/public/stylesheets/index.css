@@ -189,12 +189,26 @@ body {
 }
 .phones .phone .phonecontrols .log {
   width: 484px;
+  border-radius: 2px;
+}
+.phones .phone .phonecontrols .log .content {
+  width: 100%;
+  height: 100%;
   background-color: #fff;
   color: #000;
   font-size: 10px;
   overflow: scroll;
   padding: 4px;
-  border-radius: 2px;
+}
+.phones .phone .phonecontrols .log .delete {
+  background-image: url("/images/delete_36x36@2x.png");
+  background-size: 26px 26px;
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  cursor: pointer;
 }
 .phones .phone .phonecontrols .uploadgraph {
   width: 300px;

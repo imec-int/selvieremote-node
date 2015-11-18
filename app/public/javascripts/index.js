@@ -253,8 +253,9 @@ var App = function (options){
 			'click button.sayEnglishText'  : 'sayEnglishText_clicked',
 			'click button.sayDutchText'    : 'sayDutchText_clicked',
 
-			'click button.toggleCamera'    : 'toggleCamera_clicked'
+			'click button.toggleCamera'    : 'toggleCamera_clicked',
 
+			'click .log>.delete'   	       : 'deleteLog_clicked'
 		},
 
 		render: function(){
@@ -346,10 +347,10 @@ var App = function (options){
 		},
 
 		renderLog: function () {
-			this.$('.log').html(this.model.get('log'));
+			this.$('.log>.content').html(this.model.get('log'));
 
 			// scroll down:
-			this.$('.log')[0].scrollTop = this.$('.log')[0].scrollHeight;
+			this.$('.log>.content')[0].scrollTop = this.$('.log>.content')[0].scrollHeight;
 		},
 
 		renderSpeedChart: function () {
@@ -519,6 +520,10 @@ var App = function (options){
 			this.model.sendToPhone({
 				toggleCamera: 'toggleCamera'
 			});
+		},
+
+		deleteLog_clicked: function (event) {
+			this.model.set('log', '');
 		}
 
 	});
