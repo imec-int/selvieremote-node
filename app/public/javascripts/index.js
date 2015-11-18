@@ -97,6 +97,17 @@ var App = function (options){
 			return;
 		}
 
+		if(data.message == 'recordingtime') {
+			var phoneModel = Collections.phones.get(data.client_id);
+			if(!phoneModel) return console.log('no phone with client_id "' + phoneModel + '" found.');
+
+			phoneModel.set('recordingtime', data.timeString);
+
+			return;
+		}
+
+
+
 		if(data.status) {
 			var phoneModel = Collections.phones.get(data.client_id);
 			if(!phoneModel) return console.log('no phone with client_id "' + phoneModel + '" found.');
@@ -244,6 +255,9 @@ var App = function (options){
 			this.listenTo(this.model, 'change:megabitPerSecond', this.renderSpeed);
 
 			this.listenTo(this.model, 'change:log', this.renderLog);
+			this.listenTo(this.model, 'change:recordingtime', this.renderRecordingtime);
+
+
 
 			this.updateChartWithSpeedZero();
 		},
@@ -355,6 +369,10 @@ var App = function (options){
 
 			// scroll down:
 			this.$('.log>.content')[0].scrollTop = this.$('.log>.content')[0].scrollHeight;
+		},
+
+		renderRecordingtime: function () {
+			this.$('.statetext').text(this.model.get('recordingtime'));
 		},
 
 		renderSpeedChart: function () {
