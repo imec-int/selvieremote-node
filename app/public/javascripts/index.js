@@ -65,6 +65,7 @@ var App = function (options){
 				Collections.phones.add(phone);
 			}else{
 				phoneModel.set('connected', true);
+				phoneModel.set('isInForeground', true);
 			}
 
 			return;
@@ -105,6 +106,16 @@ var App = function (options){
 
 			return;
 		}
+
+		if(data.message == 'isInForegroundChanged') {
+			var phoneModel = Collections.phones.get(data.client_id);
+			if(!phoneModel) return console.log('no phone with client_id "' + phoneModel + '" found.');
+
+			phoneModel.set('isInForeground', data.isInForeground);
+
+			return;
+		}
+
 
 
 
@@ -152,7 +163,8 @@ var App = function (options){
 			isRecording: false,
 			isTransferingBytes: false,
 			speed: 0,
-			log: ""
+			log: "",
+			isInForeground: true
 		},
 
 		calculateSpeed: function (bytesTransferred) {
@@ -249,6 +261,8 @@ var App = function (options){
 
 		initialize: function () {
 			this.listenTo(this.model, 'change:connected', this.renderVisibility);
+			this.listenTo(this.model, 'change:isInForeground', this.renderIsInForeground);
+
 			this.listenTo(this.model, 'change:preview_frame', this.renderPreviewFrame);
 			this.listenTo(this.model, 'change:status', this.renderStatus)
 			this.listenTo(this.model, 'change:isRecording', this.renderIsRecording);
@@ -289,6 +303,7 @@ var App = function (options){
 			this.renderVisibility();
 			this.renderStatus();
 			this.renderIsRecording();
+			this.renderIsInForeground();
 			return this;
 		},
 
@@ -303,6 +318,14 @@ var App = function (options){
 					$view.hide();
 				}, 1000);
 
+			}
+		},
+
+		renderIsInForeground: function () {
+			if(this.model.get('isInForeground')) {
+				this.$el.removeClass('isBackground');
+			}else{
+				this.$el.addClass('isBackground');
 			}
 		},
 

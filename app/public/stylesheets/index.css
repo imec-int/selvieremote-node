@@ -247,8 +247,11 @@ body {
 .phones .phone.recording .phonecontrols .recordcontrols .state .statetext {
   left: 16px;
 }
-.phones .phone.disconnected .log {
-  background-color: #c92a48;
+.phones .phone.disconnected {
+  opacity: 0.5;
+}
+.phones .phone.isBackground {
+  opacity: 0.5;
 }
 .record.stop {
   background-image: url("/images/record_stop_132@2x.png");
