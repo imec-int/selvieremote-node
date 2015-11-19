@@ -206,10 +206,14 @@ function adminConnected (ws) {
 
 		var data = JSON.parse(rawdata);
 
-		// if setting username, store this here
 
 		var connectedPhone = connectedPhones[data.client_id];
-		if(!connectedPhone) return console.log('Phone with client_id "' + data.client_id + '" not connected anymore.');
+		if(!connectedPhone) return console.log('Phone with client_id "' + data.client_id + '" not found.');
+
+		// if setting username, store this here until app restarts
+		if(data.setUsernameTo) {
+			connectedPhone.phone.username = data.setUsernameTo;
+		}
 
 		console.log('sending rawdata from admin to phone ' + data.client_id);
 		connectedPhone.ws.send(rawdata);

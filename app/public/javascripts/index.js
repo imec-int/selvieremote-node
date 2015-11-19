@@ -157,6 +157,10 @@ var App = function (options){
 		},
 
 		defaults:{
+			appVersion: "1.0.1",
+			operatingSystem: "",
+			operatingSystemVersion: "",
+			carrierName: "",
 			connected: true,
 			bytesTransferred: -1,
 			status: 'IDLE',
@@ -164,7 +168,7 @@ var App = function (options){
 			isTransferingBytes: false,
 			speed: 0,
 			log: "",
-			isInForeground: true
+			isInForeground: true,
 		},
 
 		calculateSpeed: function (bytesTransferred) {
@@ -271,30 +275,38 @@ var App = function (options){
 			this.listenTo(this.model, 'change:log', this.renderLog);
 			this.listenTo(this.model, 'change:recordingtime', this.renderRecordingtime);
 
+			this.listenTo(this.model, 'change:username', this.renderUsername);
+
 
 
 			this.updateChartWithSpeedZero();
 		},
 
 		events : {
-			'click .recordbutton'          : 'recordbutton_clicked',
-			'click button.fetchlog'        : 'fetchlog_clicked',
-			'click button.deletephonedata' : 'deletephonedata_clicked',
-			'change select.disablewifi'    : 'disablewifi_changed',
+			'click .recordbutton'                      : 'recordbutton_clicked',
+			'click button.fetchlog'                    : 'fetchlog_clicked',
+			'click button.deletephonedata'             : 'deletephonedata_clicked',
+			'change select.disablewifi'                : 'disablewifi_changed',
 
-			'click button.sayEnglishText'  : 'sayEnglishText_clicked',
-			'click button.sayDutchText'    : 'sayDutchText_clicked',
+			'click button.sayEnglishText'              : 'sayEnglishText_clicked',
+			'click button.sayDutchText'                : 'sayDutchText_clicked',
 
-			'click button.toggleCamera'    : 'toggleCamera_clicked',
-			'click button.toggleSevenSecondsMode' : 'toggleSevenSecondsMode_clicked',
+			'click button.toggleCamera'                : 'toggleCamera_clicked',
+			'click button.toggleSevenSecondsMode'      : 'toggleSevenSecondsMode_clicked',
 
-			'click .log>.delete'   	       : 'deleteLog_clicked',
-			'click button.sendAlertmessage': 'sendAlertmessage_clicked',
+			'click .log>.delete'   	                   : 'deleteLog_clicked',
+			'click button.sendAlertmessage'            : 'sendAlertmessage_clicked',
 
-			'click button.moreactions'     : 'moreactions_clicked',
-			'click button.lessactions'     : 'lessactions_clicked',
+			'click button.moreactions'                 : 'moreactions_clicked',
+			'click button.lessactions'                 : 'lessactions_clicked',
 
-			'click button.killApp'         : 'killApp_clicked'
+			'click button.killApp'                     : 'killApp_clicked',
+
+			'click .info>.moreinfo'                    : 'moreinfo_clicked',
+			'click .info>.moreinfo>.username>input'    : 'usernameTextfield_clicked',
+			'keypress .info>.moreinfo>.username>input' : 'usernameTextfield_keypressDetected',
+
+
 		},
 
 		render: function(){
@@ -308,17 +320,17 @@ var App = function (options){
 		},
 
 		renderVisibility: function () {
-			if(this.model.get('connected')) {
-				this.$el.show();
-				this.$el.removeClass('disconnected');
-			}else{
-				this.$el.addClass('disconnected');
-				var $view = this.$el;
-				setTimeout(function () {
-					$view.hide();
-				}, 1000);
+			// if(this.model.get('connected')) {
+			// 	this.$el.show();
+			// 	this.$el.removeClass('disconnected');
+			// }else{
+			// 	this.$el.addClass('disconnected');
+			// 	var $view = this.$el;
+			// 	setTimeout(function () {
+			// 		$view.hide();
+			// 	}, 1000);
 
-			}
+			// }
 		},
 
 		renderIsInForeground: function () {
@@ -514,6 +526,10 @@ var App = function (options){
 			},1000);
 		},
 
+		renderUsername: function () {
+			this.$('.info>.moreinfo>.username>.value').text(this.model.get('username'));
+		},
+
 		recordbutton_clicked: function (event) {
 			if( !this.model.get('isRecording')) {
 				this.model.sendToPhone({
@@ -604,6 +620,30 @@ var App = function (options){
 				killapp: true
 			});
 		},
+
+		moreinfo_clicked: function (event) {
+			this.$('.moreinfo').toggleClass('showEnterUsernameField')
+		},
+
+		usernameTextfield_clicked: function (event) {
+			event.stopPropagation(); // else 'showEnterUsernameField' class gets toggled
+		},
+
+		usernameTextfield_keypressDetected: function (event) {
+			if (event.keyCode == 13) {
+	            // enter pressed
+
+	            var username = this.$('.info>.moreinfo>.username>input').val();
+
+	            this.model.sendToPhone({
+					setUsernameTo: username
+				});
+
+				this.model.set('username', username);
+
+				this.$('.moreinfo').removeClass('showEnterUsernameField')
+	        }
+		}
 
 	});
 

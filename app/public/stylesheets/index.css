@@ -107,6 +107,20 @@ body {
   color: #fff;
   float: left;
 }
+.phones .phone .info .moreinfo {
+  font-size: 13px;
+  color: #fff;
+  cursor: pointer;
+}
+.phones .phone .info .moreinfo .username input {
+  display: none;
+}
+.phones .phone .info .moreinfo.showEnterUsernameField .username input {
+  display: inline;
+}
+.phones .phone .info .moreinfo.showEnterUsernameField .username .value {
+  display: none;
+}
 .phones .phone .info .client_id {
   font-size: 19px;
   color: #fff;
