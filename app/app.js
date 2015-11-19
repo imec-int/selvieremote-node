@@ -6,6 +6,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var multer = require('multer')
 var WebSocket = require('ws');
 var WebSocketServer = WebSocket.Server;
 var fs = require('fs');
@@ -23,6 +24,7 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(multer({ dest: './public/data/'}))
 app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -36,6 +38,31 @@ app.get('/', function(req, res) {
 
 
 	res.render('index', { title: 'Selvie Remote', connectedPhones: connectedPhonesArray });
+});
+
+app.post('/postdata', function (req, res){
+	var client_id = req.body.client_id;
+	console.log("got data from ", client_id);
+	console.log("");
+	console.log("FILES");
+	console.log("==========");
+	console.log(req.files);
+
+	if(req.files.previewimage) {
+		// got previewimage
+
+		var filenameURL = req.files.previewimage.path.replace('public/', '');
+
+		// sending url to admin:
+		sendToAdmin({
+			message: 'preview_frame',
+			url: filenameURL,
+			client_id: client_id
+		});
+
+	}
+
+	res.json({status: 'thx'});
 });
 
 
@@ -178,6 +205,8 @@ function adminConnected (ws) {
 		// sending to phone:
 
 		var data = JSON.parse(rawdata);
+
+		// if setting username, store this here
 
 		var connectedPhone = connectedPhones[data.client_id];
 		if(!connectedPhone) return console.log('Phone with client_id "' + data.client_id + '" not connected anymore.');
