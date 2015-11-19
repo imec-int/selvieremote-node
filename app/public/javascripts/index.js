@@ -188,7 +188,8 @@ var App = function (options){
 
 				console.log('megabitPerSecond', megabitPerSecond);
 
-				this.set('megabitPerSecond', megabitPerSecond);
+				if (!isNaN(megabitPerSecond))
+					this.set('megabitPerSecond', megabitPerSecond);
 			}
 
 
@@ -320,17 +321,17 @@ var App = function (options){
 		},
 
 		renderVisibility: function () {
-			// if(this.model.get('connected')) {
-			// 	this.$el.show();
-			// 	this.$el.removeClass('disconnected');
-			// }else{
-			// 	this.$el.addClass('disconnected');
-			// 	var $view = this.$el;
-			// 	setTimeout(function () {
-			// 		$view.hide();
-			// 	}, 1000);
+			if(this.model.get('connected')) {
+				this.$el.show();
+				this.$el.removeClass('disconnected');
+			}else{
+				this.$el.addClass('disconnected');
+				var $view = this.$el;
+				setTimeout(function () {
+					$view.hide();
+				}, 1000);
 
-			// }
+			}
 		},
 
 		renderIsInForeground: function () {
@@ -512,8 +513,6 @@ var App = function (options){
 		},
 
 		updateChartWithSpeedZero: function () {
-			// console.log('updateChartWithSpeedZero');
-
 			if(!this.model.get('isTransferingBytes')) {
 				var x = Date.now();
 				var y = 0;
