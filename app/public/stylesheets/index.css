@@ -222,6 +222,7 @@ body {
 }
 .phones .phone .phonecontrols .actions {
   width: 140px;
+  height: auto;
 }
 .phones .phone .phonecontrols .actions button,
 .phones .phone .phonecontrols .actions select,
@@ -233,6 +234,9 @@ body {
   float: left;
   font-size: 10px;
   height: 20px;
+}
+.phones .phone .phonecontrols .actions .more {
+  display: none;
 }
 .phones .phone.recording .phonecontrols .recordcontrols .recordbutton {
   background-image: url("/images/stop-record_132@2x.png");

@@ -274,7 +274,11 @@ var App = function (options){
 			'click button.toggleCamera'    : 'toggleCamera_clicked',
 			'click button.toggleSevenSecondsMode' : 'toggleSevenSecondsMode_clicked',
 
-			'click .log>.delete'   	       : 'deleteLog_clicked'
+			'click .log>.delete'   	       : 'deleteLog_clicked',
+			'click button.sendAlertmessage': 'sendAlertmessage_clicked',
+
+			'click button.moreactions'      : 'moreactions_clicked',
+			'click button.lessactions'      : 'lessactions_clicked'
 		},
 
 		render: function(){
@@ -552,6 +556,22 @@ var App = function (options){
 			this.model.sendToPhone({
 				toggleSevenSecondsMode: 1
 			});
+		},
+
+		sendAlertmessage_clicked: function (event) {
+			this.model.sendToPhone({
+				alertmessage: this.$('input.alertmessage').val()
+			});
+		},
+
+		moreactions_clicked: function (event) {
+			this.$('.actions>.more').show(300);
+			this.$('.actions>.moreactions').hide();
+		},
+
+		lessactions_clicked: function (event) {
+			this.$('.actions>.more').hide(300);
+			this.$('.actions>.moreactions').show();
 		}
 
 	});
