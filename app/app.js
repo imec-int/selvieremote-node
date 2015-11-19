@@ -247,6 +247,18 @@ function extractPhoneData (data) {
 	data.device = device;
 
 
+	if(!data.operatingSystem) {
+
+		var match = useragentData[0].match(/MiX (.+)Client(.+)/);
+		if(match && match.length > 2) {
+			data.operatingSystem = match[1];
+			data.appVersion = match[2];
+		}
+
+	}
+
+
+
 	return data;
 }
 
