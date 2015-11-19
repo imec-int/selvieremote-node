@@ -277,8 +277,10 @@ var App = function (options){
 			'click .log>.delete'   	       : 'deleteLog_clicked',
 			'click button.sendAlertmessage': 'sendAlertmessage_clicked',
 
-			'click button.moreactions'      : 'moreactions_clicked',
-			'click button.lessactions'      : 'lessactions_clicked'
+			'click button.moreactions'     : 'moreactions_clicked',
+			'click button.lessactions'     : 'lessactions_clicked',
+
+			'click button.killApp'         : 'killApp_clicked'
 		},
 
 		render: function(){
@@ -572,7 +574,13 @@ var App = function (options){
 		lessactions_clicked: function (event) {
 			this.$('.actions>.more').hide(300);
 			this.$('.actions>.moreactions').show();
-		}
+		},
+
+		killApp_clicked: function (event) {
+			this.model.sendToPhone({
+				killapp: true
+			});
+		},
 
 	});
 
