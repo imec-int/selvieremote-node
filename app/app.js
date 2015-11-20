@@ -152,6 +152,9 @@ function registeredPhoneConnected(phone, ws) {
 	// listen for incoming message from that phone:
 	ws.on('message', function (data) {
 		console.log('incoming data from ' + phone.client_id + ': ', data);
+		if(!phone.client_id)  {
+			return console.log(phone, "doesnt have a client_id");
+		}
 
 		if(data instanceof Buffer) {
 			console.log('incoming binary from ' + phone.client_id + ', assuming preview frame of video');
