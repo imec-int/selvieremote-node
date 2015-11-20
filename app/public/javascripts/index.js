@@ -225,6 +225,7 @@ var App = function (options){
 		initialize: function () {
 			this.listenTo(this.collection, 'add', this.addPhoneView, this);
 			this.listenTo(this.collection, 'change:connected', this.updateNrOfPhonesConnected);
+			this.listenTo(this.collection, 'change:active', this.updateNrOfPhonesActive);
 		},
 
 		addPhoneView: function (model) {
@@ -240,6 +241,7 @@ var App = function (options){
 			this.views.push(view);
 
 			this.updateNrOfPhonesConnected();
+			this.updateNrOfPhonesActive();
 		},
 
 		updateNrOfPhonesConnected: function () {
@@ -254,7 +256,21 @@ var App = function (options){
 			}else{
 				$('.phonesconnected').text(nrOfPhonesConnected + ' phones connected');
 			}
-		}
+		},
+
+		updateNrOfPhonesActive: function () {
+			var nrOfPhonesActive = 0;
+			this.collection.forEach(function (model) {
+				if(model.get('active')) {
+					nrOfPhonesActive++;
+				}
+			});
+			if(nrOfPhonesActive == 1){
+				$('.phonesactive').text(nrOfPhonesActive + ' phone active');
+			}else{
+				$('.phonesactive').text(nrOfPhonesActive + ' phones active');
+			}
+		},
 	});
 
 	Views.Phone = Backbone.View.extend({
@@ -277,7 +293,7 @@ var App = function (options){
 			this.listenTo(this.model, 'change:recordingtime', this.renderRecordingtime);
 
 			this.listenTo(this.model, 'change:username', this.renderUsername);
-
+			this.listenTo(this.model, 'change:active', this.renderActive);
 
 
 			this.updateChartWithSpeedZero();
@@ -331,6 +347,14 @@ var App = function (options){
 					$view.hide();
 				}, 1000);
 
+			}
+		},
+
+		renderActive: function () {
+			if(this.model.get('active')){
+				this.$el.removeClass('inactive');
+			}else{
+				this.$el.addClass('inactive');
 			}
 		},
 

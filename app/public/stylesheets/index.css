@@ -76,7 +76,7 @@ body {
   margin-left: auto;
   margin-right: auto;
 }
-.phonesconnected {
+.topbar {
   background-color: #c92a48;
   color: #fff;
   height: 40px;
@@ -266,6 +266,9 @@ body {
 }
 .phones .phone.isBackground {
   opacity: 0.5;
+}
+.phones .phone.inactive {
+  height: 30px;
 }
 .record.stop {
   background-image: url("/images/record_stop_132@2x.png");
