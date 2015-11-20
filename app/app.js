@@ -175,6 +175,30 @@ function registeredPhoneConnected(phone, ws) {
 			return;
 		}
 
+		// if message contains log, save it:
+		var jsonData = JSON.parse(data);
+		var now = new Date();
+
+		if(jsonData.message == 'log') {
+			var filenameURL = '/logs/' + phone.client_id.replace(/:/g, '-') + '.log';
+			var	filename = __dirname + '/public' + filenameURL;
+
+			fs.appendFile(filename, "[" + now.toString() + "] " + jsonData.content + "\n", encoding='utf8', function (err) {
+			    if (err) throw err;
+			});
+		}
+
+		if(jsonData.status == 'UPLOADING' || jsonData.status == 'UPLOADED') {
+			var filenameURL = '/logs/' + phone.client_id.replace(/:/g, '-') + '.log';
+			var	filename = __dirname + '/public' + filenameURL;
+
+			fs.appendFile(filename, "[" + now.toString() + "] " + 'bytesTransferred: ' + jsonData.bytesTransferred + "\n", encoding='utf8', function (err) {
+			    if (err) throw err;
+			});
+		}
+
+
+
 		// sending all other message directly to admin:
 		sendToAdmin(data);
 	});
