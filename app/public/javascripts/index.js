@@ -138,6 +138,8 @@ var App = function (options){
 		Collections.phones = new Collections.Phones();
 		new Views.Phones({collection: Collections.phones});
 		Collections.phones.add(options.connectedPhones);
+
+		new Views.CommonControls();
 	};
 
 
@@ -152,8 +154,13 @@ var App = function (options){
 	Models.Phone = Backbone.Model.extend({
 		idAttribute: 'client_id',
 
+		inActiveTimer: null,
+
 		initialize: function (options) {
 			this.on('change:bytesTransferred', this.calculateSpeed, this);
+			this.on('change', this.somethingChanged, this);
+
+			this.somethingChanged();
 		},
 
 		defaults:{
@@ -169,6 +176,23 @@ var App = function (options){
 			speed: 0,
 			log: "",
 			isInForeground: true,
+			active: true
+		},
+
+		somethingChanged: function () {
+			if (this.hasChanged("active")) return;
+
+			this.set('active', true);
+
+			var self = this;
+
+			if(this.inActiveTimer) {
+				clearTimeout(this.inActiveTimer);
+				this.inActiveTimer = null;
+			}
+			this.inActiveTimer = setTimeout(function () {
+				self.set('active', false);
+			}, 20000);
 		},
 
 		calculateSpeed: function (bytesTransferred) {
@@ -216,6 +240,24 @@ var App = function (options){
 
 	// VIEWS:
 	// ======================
+
+
+	Views.CommonControls = Backbone.View.extend({
+		el: '.commoncontrols',
+
+		events : {
+			'click .recordAll'                      : 'recordAll_clicked'
+		},
+
+		recordAll_clicked: function (event) {
+			Collections.phones.each(function (phoneModel) {
+				phoneModel.sendToPhone({
+					toggleRecord: "1"
+				});
+				phoneModel.set('isRecording', true);
+			});
+		}
+	});
 
 	Views.Phones = Backbone.View.extend({
 		el: '.phones',
