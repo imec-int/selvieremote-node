@@ -11,9 +11,26 @@ var WebSocket = require('ws');
 var WebSocketServer = WebSocket.Server;
 var fs = require('fs');
 var _ = require('underscore');
+var arp = require('node-arp');
 
 
 var app = express();
+
+// RAW DATA CHECK:
+// app.use (function (req, res, next) {
+// 	var chunks = [];
+// 	req.on('data', function (chunk) {
+// 		chunks.push(chunk);
+// 	});
+
+// 	req.on('end', function () {
+// 		var rawbody = Buffer.concat(chunks);
+// 		console.log('RAW DATA');
+// 		console.log(rawbody.toString('utf8'));
+// 		console.log('END RAW DATA');
+// 		next();
+// 	});
+// });
 
 app.set('port', process.env.PORT || 3001);
 app.set('views', path.join(__dirname, 'views'));
@@ -39,6 +56,21 @@ app.get('/', function(req, res) {
 
 	res.render('index', { title: 'Selvie Remote', connectedPhones: connectedPhonesArray });
 });
+
+app.get('/rest/getmac', function (req, res) {
+
+	var ipAddress = getRemoteIp(req);
+
+	ipAddress = ipAddress.replace(/::ffff:/, ''); //ipv6 shit
+
+	console.log("finding MAC address for", ipAddress);
+
+
+	arp.getMAC(ipAddress, function (err, mac) {
+	    if (err) { return res.json({err: 'macnotfound'}) };
+	    return res.json({mac: mac});
+	});
+})
 
 app.post('/postdata', function (req, res){
 	var client_id = req.body.client_id;
@@ -153,7 +185,7 @@ function registeredPhoneConnected(phone, ws) {
 	ws.on('message', function (data) {
 		console.log('incoming data from ' + phone.client_id + ': ', data);
 		if(!phone.client_id)  {
-			return console.log(phone, "doesnt have a client_id");
+			return console.log(phone, "!!!!!!!!!!!!!doesnt have a client_id");
 		}
 
 		if(data instanceof Buffer) {
@@ -289,3 +321,11 @@ function extractPhoneData (data) {
 	return data;
 }
 
+
+function getRemoteIp (req) {
+	// http://stackoverflow.com/questions/8107856/how-can-i-get-the-users-ip-address-using-node-js
+	return req.headers['x-forwarded-for'] ||
+			req.connection.remoteAddress ||
+			req.socket.remoteAddress ||
+			req.connection.socket.remoteAddress;
+}
