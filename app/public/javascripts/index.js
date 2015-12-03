@@ -266,6 +266,9 @@ var App = function (options){
 	Views.CommonControls = Backbone.View.extend({
 		el: '.commoncontrols',
 
+		graphMaxSamplesVisible: 20,
+		currentNoOfGraphSamples: 0,
+
 		initialize: function (options) {
 			this.listenTo(Collections.phones, 'change:megabitPerSecond', this.updateChart, this);
 		},
