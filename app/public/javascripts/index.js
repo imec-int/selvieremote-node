@@ -194,6 +194,7 @@ var App = function (options){
 
 		somethingChanged: function () {
 			if (this.hasChanged("hidden")) return;
+			if (this.hasChanged("tick")) return; // happens every second (to update the graphs with zeros)
 
 			this.set('hidden', false);
 
