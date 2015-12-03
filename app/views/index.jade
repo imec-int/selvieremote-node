@@ -43,7 +43,13 @@ html
 
 		script#phone-tmpl(type="text/x-jquery-tmpl")
 			.info
-				.devicename ${device}
+				.devicename
+					{{if operatingSystem == "iOS"}}
+					img.osimage(src="/images/apple-20px@2x.png")
+					{{else}}
+					img.osimage(src="/images/android-20px@2x.png")
+					{{/if}}
+					.devicenametext ${device}
 				span.moreinfo ${operatingSystem} ${operatingSystemVersion} (app versie ${appVersion}, ${carrierName})
 					span.username
 						| &nbsp;
@@ -70,24 +76,33 @@ html
 					.chart
 				.actions
 					input.alertmessage(type="text", placeholder="Alert message")
-					button.sendAlertmessage Send Alert message
-					button.toggleCamera Toggle Camera
-					button.toggleSevenSecondsMode Toggle 7 seconds mode
-					select.disablewifi
-						option(value=0) Temporarily disable wifi
-						option(value=5) for 5 seconds
-						option(value=10) for 10 seconds
-						option(value=20) for 20 seconds
-						option(value=30) for 30 seconds
-					button.fetchlog Fetch device log
+					button.sendAlertmessage
+						img.image(src="/images/apple-20px@2x.png")
+						.text Send Alert message
+					button.toggleCamera
+						img.image(src="/images/apple-20px@2x.png")
+						.text Toggle Camera
+					button.toggleSevenSecondsMode
+						img.image(src="/images/apple-20px@2x.png")
+						.text Toggle 7 seconds mode
+					button.fetchlog
+						img.image(src="/images/android-20px@2x.png")
+						.text Fetch device log
 					button.moreactions More actions
 					.more
 						button.lessactions Less actions
 						input.englishText(type="text", placeholder="English text")
-						button.sayEnglishText Say English text
+						button.sayEnglishText
+							img.image(src="/images/apple-20px@2x.png")
+							.text Say English text
 						input.dutchText(type="text", placeholder="Nederlandse tekst")
-						button.sayDutchText Say Dutch text
-						button.killApp Kill app
+						button.sayDutchText
+							img.image(src="/images/apple-20px@2x.png")
+							.text Say Dutch text
+						button.killApp
+							img.image(src="/images/apple-20px@2x.png")
+							.text Kill app
+
 
 
 
