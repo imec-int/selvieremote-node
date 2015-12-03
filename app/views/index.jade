@@ -13,10 +13,17 @@ html
 			.topbar
 				span.phonesconnected 0 phones connected
 				| &nbsp;(
-				span.phonesactive
-				| &nbsp;in the last 20 seconds)
+				span.phoneshidden
+				| )
 
 			.commoncontrols
+
+				label Hide phones after inactivity of
+				input.hidePhonesAfterTime(type="number", placeholder="30", value="30")
+				label seconds
+				button.setHidePhonesAfterTime Apply
+				br
+				br
 				button.recordAll Start recording on all phones.
 
 			.phones
@@ -50,12 +57,14 @@ html
 					img.osimage(src="/images/android-20px@2x.png")
 					{{/if}}
 					.devicenametext ${device}
-				span.moreinfo ${operatingSystem} ${operatingSystemVersion} (app versie ${appVersion}, ${carrierName})
+				span.moreinfo ${operatingSystem} ${operatingSystemVersion} (app versie ${appVersion}${carrierName?", "+carrierName:""})
 					span.username
 						| &nbsp;
 						input
 						span.value ${username}
+				button.hidephone Hide
 				.client_id ${client_id}
+
 
 			.phonecontrols
 				.recordcontrols
