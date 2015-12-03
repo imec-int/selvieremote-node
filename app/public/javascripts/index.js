@@ -279,6 +279,8 @@ var App = function (options){
 			// render chart AFTER it's been added to the DOM:
 			view.renderSpeedChart();
 
+			view.hideHighChartsText();
+
 			// store view object for later (removal when sorting):
 			this.views.push(view);
 
@@ -512,7 +514,7 @@ var App = function (options){
 					}
 				},
 				title: {
-					text: thisView.model.get('device')
+					text: null
 				},
 				xAxis: {
 					type: 'datetime',
@@ -563,6 +565,10 @@ var App = function (options){
 					}
 				},
 			});
+		},
+
+		hideHighChartsText: function () {
+			this.$("text[x=290]").hide();
 		},
 
 		addPointToGraph: function (x, y) {
