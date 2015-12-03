@@ -50,6 +50,7 @@ html
 
 		script#phone-tmpl(type="text/x-jquery-tmpl")
 			.info
+				span.moreinfo ${operatingSystem} ${operatingSystemVersion} (app versie ${appVersion}${carrierName?", "+carrierName:""})
 				.devicename
 					{{if operatingSystem == "iOS"}}
 					img.osimage(src="/images/apple-20px@2x.png")
@@ -57,11 +58,10 @@ html
 					img.osimage(src="/images/android-20px@2x.png")
 					{{/if}}
 					.devicenametext ${device}
-				span.moreinfo ${operatingSystem} ${operatingSystemVersion} (app versie ${appVersion}${carrierName?", "+carrierName:""})
 					span.username
-						| &nbsp;
-						input
-						span.value ${username}
+						input(value="${username}", placeholder="username (will be stored on iOS devices)")
+						span.value ${username?"&nbsp;- "+username:""}
+
 				button.hidephone Hide
 				.client_id ${client_id}
 

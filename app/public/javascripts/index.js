@@ -178,7 +178,8 @@ var App = function (options){
 			log: "",
 			isInForeground: true,
 			active: true,
-			inactiveAfter: 30
+			inactiveAfter: 30,
+			username: null
 		},
 
 		somethingChanged: function () {
@@ -392,9 +393,9 @@ var App = function (options){
 
 			'click button.killApp'                     : 'killApp_clicked',
 
-			'click .info>.moreinfo'                    : 'moreinfo_clicked',
-			'click .info>.moreinfo>.username>input'    : 'usernameTextfield_clicked',
-			'keypress .info>.moreinfo>.username>input' : 'usernameTextfield_keypressDetected',
+			'click .info>.devicename'                    : 'username_clicked',
+			'click .info>.devicename>.username>input'    : 'usernameTextfield_clicked',
+			'keypress .info>.devicename>.username>input' : 'usernameTextfield_keypressDetected',
 
 
 		},
@@ -613,7 +614,7 @@ var App = function (options){
 		},
 
 		renderUsername: function () {
-			this.$('.info>.moreinfo>.username>.value').text(this.model.get('username'));
+			this.$('.username>.value').html("&nbsp;- " + this.model.get('username'));
 		},
 
 		hidephone_clicked: function (event) {
@@ -717,8 +718,8 @@ var App = function (options){
 			});
 		},
 
-		moreinfo_clicked: function (event) {
-			this.$('.moreinfo').toggleClass('showEnterUsernameField')
+		username_clicked: function (event) {
+			this.$('.devicename').toggleClass('showEnterUsernameField')
 		},
 
 		usernameTextfield_clicked: function (event) {
@@ -729,7 +730,7 @@ var App = function (options){
 			if (event.keyCode == 13) {
 	            // enter pressed
 
-	            var username = this.$('.info>.moreinfo>.username>input').val();
+	            var username = this.$('.info>.devicename>.username>input').val();
 
 	            this.model.sendToPhone({
 					setUsernameTo: username
@@ -737,7 +738,7 @@ var App = function (options){
 
 				this.model.set('username', username);
 
-				this.$('.moreinfo').removeClass('showEnterUsernameField')
+				this.$('.devicename').removeClass('showEnterUsernameField')
 	        }
 		}
 
