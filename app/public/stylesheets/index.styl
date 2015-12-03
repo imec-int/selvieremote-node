@@ -20,6 +20,18 @@ body
 .commoncontrols
 	margin-top 8px
 
+	input.hidePhonesAfterTime
+		height 32px
+		width 42px
+		text-align center
+		font-size 14px
+		margin-left 4px
+		margin-right 4px
+
+	button.setHidePhonesAfterTime
+		margin-left 4px
+		min-width 50px
+
 .phones
 	margin-top 20px
 	margin-bottom 100px
@@ -35,10 +47,8 @@ body
 			width 100%
 			height 30px
 			line-height 30px
-			text-align center
 			background-color #002B41
 			overflow hidden
-			padding-right 8px
 			padding-left 8px
 			border-radius 2px
 
@@ -84,7 +94,14 @@ body
 				font-size 19px
 				color white
 				float right
-				position absolute
+
+			button.hidephone
+				float right
+				min-width 44px
+				margin-left 4px
+				height 24px
+				margin-top 3px
+				margin-right 3px
 
 
 		.phonecontrols
@@ -238,7 +255,7 @@ body
 		opacity 0.50
 
 
-	.phone.inactive
+	.phone.hidden
 		height 30px
 
 

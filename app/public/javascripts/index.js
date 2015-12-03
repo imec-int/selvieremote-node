@@ -159,6 +159,7 @@ var App = function (options){
 		initialize: function (options) {
 			this.on('change:bytesTransferred', this.calculateSpeed, this);
 			this.on('change', this.somethingChanged, this);
+			this.on('change:inactiveAfter', this.updateInactivityTimer, this);
 
 			this.somethingChanged();
 		},
@@ -176,13 +177,17 @@ var App = function (options){
 			speed: 0,
 			log: "",
 			isInForeground: true,
-			active: true
+			active: true,
+			inactiveAfter: 30
 		},
 
 		somethingChanged: function () {
-			if (this.hasChanged("active")) return;
+			if (this.hasChanged("hidden")) return;
 
-			this.set('active', true);
+			this.set('hidden', false);
+
+			if(this.get('inactiveAfter') <= 0) return;
+
 
 			var self = this;
 
@@ -191,8 +196,12 @@ var App = function (options){
 				this.inActiveTimer = null;
 			}
 			this.inActiveTimer = setTimeout(function () {
-				self.set('active', false);
-			}, 20000);
+				self.set('hidden', true);
+			}, this.get('inactiveAfter')*1000);
+		},
+
+		updateInactivityTimer: function () {
+			this.somethingChanged();
 		},
 
 		calculateSpeed: function (bytesTransferred) {
@@ -246,7 +255,22 @@ var App = function (options){
 		el: '.commoncontrols',
 
 		events : {
+			'click .setHidePhonesAfterTime'         : 'setHidePhonesAfterTime_clicked',
 			'click .recordAll'                      : 'recordAll_clicked'
+		},
+
+		setHidePhonesAfterTime_clicked: function (event) {
+			var secondsStr = this.$('.hidePhonesAfterTime').val();
+
+			var seconds = parseInt(secondsStr);
+
+			if(!seconds) return alert('"'+secondsStr+'" doesn\'t look like a number, dude!');
+
+
+
+			Collections.phones.each(function (phoneModel) {
+				phoneModel.set('inactiveAfter', seconds);
+			});
 		},
 
 		recordAll_clicked: function (event) {
@@ -267,7 +291,7 @@ var App = function (options){
 		initialize: function () {
 			this.listenTo(this.collection, 'add', this.addPhoneView, this);
 			this.listenTo(this.collection, 'change:connected', this.updateNrOfPhonesConnected);
-			this.listenTo(this.collection, 'change:active', this.updateNrOfPhonesActive);
+			this.listenTo(this.collection, 'change:hidden', this.updateNrOfPhonesHidden);
 		},
 
 		addPhoneView: function (model) {
@@ -285,7 +309,7 @@ var App = function (options){
 			this.views.push(view);
 
 			this.updateNrOfPhonesConnected();
-			this.updateNrOfPhonesActive();
+			this.updateNrOfPhonesHidden();
 		},
 
 		updateNrOfPhonesConnected: function () {
@@ -302,17 +326,17 @@ var App = function (options){
 			}
 		},
 
-		updateNrOfPhonesActive: function () {
-			var nrOfPhonesActive = 0;
+		updateNrOfPhonesHidden: function () {
+			var nrOfPhonesHidden = 0;
 			this.collection.forEach(function (model) {
-				if(model.get('active')) {
-					nrOfPhonesActive++;
+				if(model.get('hidden')) {
+					nrOfPhonesHidden++;
 				}
 			});
-			if(nrOfPhonesActive == 1){
-				$('.phonesactive').text(nrOfPhonesActive + ' phone active');
+			if(nrOfPhonesHidden == 1){
+				$('.phoneshidden').text(nrOfPhonesHidden + ' phone hidden');
 			}else{
-				$('.phonesactive').text(nrOfPhonesActive + ' phones active');
+				$('.phoneshidden').text(nrOfPhonesHidden + ' phones hidden');
 			}
 		},
 	});
@@ -337,13 +361,15 @@ var App = function (options){
 			this.listenTo(this.model, 'change:recordingtime', this.renderRecordingtime);
 
 			this.listenTo(this.model, 'change:username', this.renderUsername);
-			this.listenTo(this.model, 'change:active', this.renderActive);
+			this.listenTo(this.model, 'change:hidden', this.renderHidden);
 
 
 			this.updateChartWithSpeedZero();
 		},
 
 		events : {
+			'click .hidephone'                         : 'hidephone_clicked',
+
 			'click .recordbutton'                      : 'recordbutton_clicked',
 
 			'click .previewimage'                      : 'previewimage_clicked',
@@ -397,11 +423,13 @@ var App = function (options){
 			}
 		},
 
-		renderActive: function () {
-			if(this.model.get('active')){
-				this.$el.removeClass('inactive');
+		renderHidden: function () {
+			if(this.model.get('hidden')){
+				this.$el.addClass('hidden');
+				this.$('button.hidephone').text('Show');
 			}else{
-				this.$el.addClass('inactive');
+				this.$el.removeClass('hidden');
+				this.$('button.hidephone').text('Hide');
 			}
 		},
 
@@ -497,20 +525,6 @@ var App = function (options){
 					events: {
 						load: function() {
 							thisView.graphSeries = this.series[0];
-
-							// set up the updating of the chart each second
-							// var series = this.series[0],
-							// 	maxSamples = 20,
-							// 	count = 0;
-							// setInterval(function() {
-							// 	var x = (new Date()).getTime(), // current time
-							// 		y = Math.random();
-							// 	series.addPoint(
-							// 		[x,y]
-							// 		, true
-							// 		, (++count >= maxSamples)
-							// 	);
-							// }, 1000);
 						}
 					}
 				},
@@ -600,6 +614,10 @@ var App = function (options){
 
 		renderUsername: function () {
 			this.$('.info>.moreinfo>.username>.value').text(this.model.get('username'));
+		},
+
+		hidephone_clicked: function (event) {
+			this.model.set('hidden', !this.model.get('hidden'));
 		},
 
 		recordbutton_clicked: function (event) {
