@@ -139,7 +139,17 @@ var App = function (options){
 		new Views.Phones({collection: Collections.phones});
 		Collections.phones.add(options.connectedPhones);
 
-		new Views.CommonControls();
+		Views.commonControls = new Views.CommonControls();
+		Views.commonControls.renderSpeedChart();
+
+
+		setInterval(function () {
+			Collections.phones.each(function (phoneModel) {
+				phoneModel.set('tick', Date.now());
+			});
+
+			Views.commonControls.tick();
+		},1000);
 	};
 
 
@@ -255,6 +265,10 @@ var App = function (options){
 	Views.CommonControls = Backbone.View.extend({
 		el: '.commoncontrols',
 
+		initialize: function (options) {
+			this.listenTo(Collections.phones, 'change:megabitPerSecond', this.updateChart, this);
+		},
+
 		events : {
 			'click .setHidePhonesAfterTime'         : 'setHidePhonesAfterTime_clicked',
 			'click .recordAll'                      : 'recordAll_clicked'
@@ -281,6 +295,119 @@ var App = function (options){
 				});
 				phoneModel.set('isRecording', true);
 			});
+		},
+
+		renderSpeedChart: function () {
+			var thisView = this;
+
+			this.$('.chart').highcharts({
+				chart: {
+					type: 'spline',
+					animation: Highcharts.svg, // don't animate in old IE
+					marginRight: 10,
+					events: {
+						load: function() {
+							thisView.graphSeries = this.series[0];
+						}
+					}
+				},
+				title: {
+					text: null
+				},
+				xAxis: {
+					type: 'datetime',
+					tickPixelInterval: 150
+				},
+				yAxis: {
+					title: {
+						text: 'total speed'
+					},
+					plotLines: [{
+						value: 0,
+						width: 1,
+						color: '#808080'
+					}]
+				},
+
+				legend: {
+					enabled: false
+				},
+				exporting: {
+					enabled: false
+				},
+				series: [{
+					name: 'speed',
+					 data: (function() {
+					// generate an array of 0's te 'emulate' the 20 previous values
+					var data = [],
+						time = (new Date()).getTime(),
+						i;
+
+					for (i = -(thisView.graphMaxSamplesVisible-1); i <= 0; i++) {
+						data.push({
+							x: time + i * 1000,
+							y: 0
+						});
+					}
+					return data;
+				})()
+				}],
+				tooltip: {
+					enabled: false
+				},
+				plotOptions: {
+					series: {
+						marker: {
+							enabled: false
+						}
+					}
+				},
+			});
+
+			this.updateChart();
+		},
+
+		addPointToGraph: function (x, y) {
+			if(!this.graphSeries) return;
+
+			this.currentNoOfGraphSamples++;
+
+			var moveGraph = false;
+			if(this.currentNoOfGraphSamples > this.graphMaxSamplesVisible) {
+				moveGraph = true;
+			}
+
+			this.graphSeries.addPoint([x,y], true, moveGraph);
+
+			this.lastGraphUpdate = Date.now();
+		},
+
+		tick: function (timestamp) {
+			var theresAPhoneTransferringBytes = false;
+			Collections.phones.each(function (phoneModel) {
+				if(phoneModel.get('isTransferingBytes')) {
+					theresAPhoneTransferringBytes = true;
+				}
+			});
+
+			if(theresAPhoneTransferringBytes) return;
+
+			var x = Date.now();
+			var y = 0;
+			this.addPointToGraph(x,y);
+		},
+
+		updateChart: function () {
+			var totalMegabitPerSecond = 0;
+			Collections.phones.each(function (phoneModel) {
+				if(phoneModel.get('isTransferingBytes')) {
+					totalMegabitPerSecond += phoneModel.get('megabitPerSecond');
+				}
+			});
+
+			var x = Date.now();
+			var y = totalMegabitPerSecond;
+			this.addPointToGraph(x,y);
 		}
 	});
 
@@ -357,15 +484,13 @@ var App = function (options){
 			this.listenTo(this.model, 'change:status', this.renderStatus)
 			this.listenTo(this.model, 'change:isRecording', this.renderIsRecording);
 			this.listenTo(this.model, 'change:megabitPerSecond', this.renderSpeed);
+			this.listenTo(this.model, 'change:tick', this.tick);
 
 			this.listenTo(this.model, 'change:log', this.renderLog);
 			this.listenTo(this.model, 'change:recordingtime', this.renderRecordingtime);
 
 			this.listenTo(this.model, 'change:username', this.renderUsername);
 			this.listenTo(this.model, 'change:hidden', this.renderHidden);
-
-
-			this.updateChartWithSpeedZero();
 		},
 
 		events : {
@@ -600,17 +725,12 @@ var App = function (options){
 			this.graphSeries.addPoint([x,y], true, moveGraph);
 		},
 
-		updateChartWithSpeedZero: function () {
+		tick: function (timestamp) {
 			if(!this.model.get('isTransferingBytes')) {
 				var x = Date.now();
 				var y = 0;
 				this.addPointToGraph(x,y);
 			}
-
-			var self = this;
-			setTimeout(function () {
-				self.updateChartWithSpeedZero.apply(self);
-			},1000);
 		},
 
 		renderUsername: function () {
