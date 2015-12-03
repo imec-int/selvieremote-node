@@ -345,6 +345,9 @@ var App = function (options){
 
 		events : {
 			'click .recordbutton'                      : 'recordbutton_clicked',
+
+			'click .previewimage'                      : 'previewimage_clicked',
+
 			'click button.fetchlog'                    : 'fetchlog_clicked',
 			'click button.deletephonedata'             : 'deletephonedata_clicked',
 			'change select.disablewifi'                : 'disablewifi_changed',
@@ -412,8 +415,6 @@ var App = function (options){
 
 		renderPreviewFrame: function () {
 			if(this.model.get('preview_frame')) {
-				this.$('.preview_frame').css('background-image', 'url("'+ this.model.get('preview_frame') +'")')
-
 				this.$('.previewimage').css('background-image', 'url("'+ this.model.get('preview_frame') +'")')
 			}
 		},
@@ -614,6 +615,12 @@ var App = function (options){
 				});
 
 				this.model.set('isRecording', false);
+			}
+		},
+
+		previewimage_clicked: function (event) {
+			if(this.model.get('preview_frame')) {
+				window.open(this.model.get('preview_frame'), '_blank');
 			}
 		},
 
